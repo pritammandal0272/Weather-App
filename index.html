@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="src/output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        .input,.footer{box-shadow: 0px 0px 8px #00000080;}
+        .input input{background: transparent;}
+        .input input:focus{outline: 0;}
+        .input input::placeholder{opacity: 0.6;}
+        .weatherImage{
+            backdrop-filter: blur(30px);
+            box-shadow: 0px 0px 30px rgba(227, 228, 237, 0.37);
+            border: 2px solid rgba(255, 255, 255, 0.37);
+        }
+        .whitebox{
+            margin-top: 0.2em;
+            backdrop-filter: blur(50px);
+            box-shadow: 0px 0px 30px rgba(227, 228, 237, 0.37);
+            border: 2px solid #ff000070;
+        }
+        .enterkey{transition: 0.5s ease;}
+        .enterkey:hover{
+            background-color: black;
+            color: white;
+        }
+        .main{
+            background-image: url(assets/images/graphic-2d-colorful-wallpaper-with-grainy-gradients.jpg);
+        }
+        #scroll_container{
+            
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            width: 15.3em;
+            /* background-color: red; */
+        }
+        .first_page{
+            transition: 1s ease;
+        }
+        #scroll{
+            width: 100%;
+            /* background-color: pink; */
+            animation: scroll 5s infinite;
+            height: 100%;
+            overflow: hidden;
+        }
+        .missing_input{display: none;}
+        #scroll h1{text-align: center;}
+        @keyframes scroll {
+            0%{
+                width: 0;
+            }
+            100%{
+                width: 17em;
+            }
+        }
+        .address{font-size: 1.5em;}
+        @media (min-width: 1025px) {
+            body{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+               background-color: rgb(194, 241, 241);
+            }
+            .main{width: 30%;}
+            .footer{width: 30%;}
+        }
+        /* Tablets */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .body{padding: 1em 2em;}
+           .input{
+            height: 6vh;
+            font-size: 40px;
+            padding: 0em;
+           }
+           .date{font-size: 35px;}
+           .address{font-size: 55px;margin-top: 0.2em;}
+           .weatherImage{width: 50%;height: 15vh;margin-bottom: 2em;}
+           #temprature{font-size: 14em;}
+           .celsious{font-size: 5em;}
+           .state{font-size: 4em;}
+           #tempratureBox{font-size: 7em;}
+           .description{font-size: 3em;}
+           .icon{font-size: 5em;padding: 0.3em;}
+           .box p{font-size: 2.2em;}
+           .footer h1{font-size: 2em;}
+           #scroll_container{
+            width: 42em;
+            }
+            #scroll h1{text-align: center;font-size: 10em;}
+            @keyframes scroll {
+            0%{
+                width: 0;
+            }
+            100%{
+                width: 42em;
+            }
+            }
+            .btn_weather{font-size: 3em;padding: 0.5em;}
+            .first_page img{width: 60%;}
+            .first_page p{font-size: 3em;}
+            .date,#date{font-size: 1em;}
+            .missing_input{font-size: 2em;}
+        }
+
+    </style>
+</head>
+<body onload="loaded()">
+    <div class="main h-[100vh] bg-cover bg-no-repeat relative">
+        <div class="first_page absolute h-[92vh] w-[100%] bg-white z-10 flex flex-col items-center justify-center">
+            <div id="scroll_container">
+                <div id="scroll">
+                    <h1 class="text-6xl text-[#3cc546]"><span class="text-red-600">W</span>elcome</h1>
+                </div>
+            </div>
+            <img src="assets/images/location.png" class="w-[50%]" alt="">
+            <label for="input" class="btn_weather bg-[#4c8f42] p-3 pl-5 rounded-3xl text-[17px] font-bold text-white cursor-pointer">Choose your location to Check Weather </label>
+            <p class="mt-2 opacity-40">Note: Please write a Valid Location</p>
+        </div>
+        <div class="body h-auto p-4 pt-1 flex flex-col">
+            <div class="input h-[7vh] bg-white rounded-3xl flex items-center justify-evenly z-30">
+                <input onkeyup="input_color_change()" id="input" type="search" placeholder="Chosse your Location....." class="w-[60%] h-[80%] text-1xl p-2">
+                <!-- <div class="h-[40px] w-[40px] bg-[#2f91f4] flex items-center justify-center rounded-full"> -->
+                    <h1 class="enterkey py-2 px-5 bg-teal-300 rounded-2xl text-red-500 cursor-pointer" onclick="enter()">Enter <i class="fa-solid fa-right-to-bracket"></i></h1>
+                    <!-- <i class="fa-brands fa-searchengin text-white text-2xl" onclick="enter()"></i> -->
+                <!-- </div> -->
+            </div>
+            <p class="missing_input z-50 ml-5 text-red-500 text-[15px]">***Please write your location***</p>
+            <div class="location text-white flex items-center gap-3 mt-3 justify-center">
+                <div class="address flex flex-col items-center">
+                    <p class="text-center" id="address">London, UK</p>
+                    <p class="text-[17px] date">Today, <span id="date" class="text-[17px]"> 20-01-2025</span></p>
+                </div>
+            </div>
+            <div class="temprature h-[fit-content] flex flex-col-reverse gap-4 items-center pt-2 text-white mt-2 justify-center">
+               <label class="flex"><h1 class="text-8xl text-white" id="temprature">33</h1><sup class="text-3xl celsious">oC</sup></label>
+                <img src="assets/images/1.jpg" alt="" class="weatherImage w-[40%] h-[100px]  rounded-2xl">
+            </div>
+            <div class="whitebox h-[40vh] text-white rounded-2xl p-5 flex flex-col justify-between">
+                <p class="state font-bold text-[20px]"></p>
+                <label for="" class="flex items-center justify-between">
+                    <h1 class="text-5xl text-white" id="tempratureBox"></h1>
+                    <h1 class="ml-4 description text-center"></h1>
+                </label>
+                <div class="smalldiv w-[100%] h-[50%] flex justify-between">
+                    <div class="box w-[23%] text-center h-[100%] bg-[#55abfd] rounded-2xl flex items-center flex-col justify-evenly">
+                        <i class="icon fa-solid fa-droplet p-4 text-red-500 bg-white rounded-full"></i>
+                        <p>Humidity</p>
+                        <p id="Humidity"></p>
+                    </div>
+                    <div class="box w-[23%] text-center h-[100%] bg-[#9adc88] rounded-2xl flex items-center flex-col justify-evenly">
+                        <i class="icon fa-solid fa-water p-4 text-red-500 bg-white rounded-full"></i>
+                        <p>Pressure</p>
+                        <p id="Pressure"></p>
+                    </div>
+                    <div class="box w-[25%] text-center h-[100%] bg-[#55abfd] rounded-2xl flex items-center flex-col justify-evenly">
+                        <i class="icon fa-solid fa-wind p-4 text-red-500 bg-white rounded-full"></i>
+                        <p>Wind</p>
+                        <p id="Wind"></p>
+                    </div>
+                    <div class="box w-[23%] text-center h-[100%] bg-[#9adc88] rounded-2xl flex items-center flex-col justify-evenly">
+                        <i class="icon fa-solid fa-hand-holding-droplet p-4 text-red-500 bg-white rounded-full"></i>
+                        <p>Dew Point</p>
+                        <p id="dew_point"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer z-30 w-[100%] p-3 items-center justify-center overflow-hidden h-[8vh] bg-black fixed bottom-0 flex">
+            <h1 class="text-center text-[13px] text-white">Weather reports help individuals and organizations prepare for potentially hazardous weather conditions, such as storms, heatwaves, or blizzards. </h1>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
